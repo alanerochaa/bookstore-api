@@ -9,8 +9,7 @@ A Bookstore API é uma aplicação desenvolvida em Spring Boot como parte da ava
 O sistema oferece um CRUD completo para as entidades Autor e Livro, estabelecendo um relacionamento 1:N entre elas.
 
 O projeto segue princípios modernos de desenvolvimento, aplicando arquitetura MVC, injeção de dependência, e o uso de DTOs baseados em records para representar dados de forma imutável e enxuta.
-Conta ainda com um Mapper personalizado para conversão entre entidades e DTOs, um tratamento global de exceções elegante via @ControllerAdvice, e uma suíte de testes unitários e de integração com cobertura JaCoCo ≥ 50%.
-
+Conta ainda com um Mapper personalizado para conversão entre entidades e DTOs, um tratamento global de exceções elegante via @ControllerAdvice, e uma suíte de testes unitários e de integração com cobertura JaCoCo.
 
 ## 🧠 Tecnologias Utilizadas
 
@@ -139,6 +138,13 @@ Os testes incluem **unitários e de integração**, abrangendo services, control
 <p align="center">
   <img src="./docs/imagens/Cobertura.png" width="750" alt="Relatório JaCoCo - Bookstore API"/>
 </p>
+
+
+## 🔗 Repositório no GitHub
+
+📎 Acesse o código completo do projeto aqui:  
+
+👉 [https://github.com/alanerochaa/bookstore-api](https://github.com/alanerochaa/bookstore-api)
 
 
 ## 👩‍💻 Autora
