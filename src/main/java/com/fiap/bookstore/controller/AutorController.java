@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/autores")
-@Tag(name = "Autores", description = "Gerenciamento de autores e seus livros")
+@Tag(name = "Autores", description = "Gerenciamento completo de autores e seus livros cadastrados")
 public class AutorController {
 
     private final AutorService autorService;
@@ -31,23 +31,32 @@ public class AutorController {
     }
 
     @Operation(
-            summary = "Criar um novo autor",
-            description = "Cria um novo autor no sistema. O campo **email** deve ser único."
+            summary = "Cadastrar um novo autor",
+            description = """
+                    Cria um novo autor com as informações básicas, como nome, e-mail, biografia, 
+                    nacionalidade e data de nascimento.
+                    O campo **email** deve ser único.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Autor criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados")
     })
     @PostMapping
-    public ResponseEntity<AutorDTO> criar(@RequestBody @Valid AutorDTO dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<AutorDTO> criar(
+            @RequestBody @Valid AutorDTO dto,
+            UriComponentsBuilder uriBuilder) {
         AutorDTO created = autorService.criar(dto);
         URI uri = uriBuilder.path("/autores/{id}").buildAndExpand(created.id()).toUri();
         return ResponseEntity.created(uri).body(created);
     }
 
     @Operation(
-            summary = "Listar todos os autores",
-            description = "Retorna uma lista com todos os autores cadastrados no sistema."
+            summary = "Listar autores",
+            description = """
+                    Retorna uma lista com todos os autores cadastrados, incluindo nome, e-mail, 
+                    nacionalidade, biografia e data de nascimento (quando informados).
+                    """
     )
     @ApiResponse(responseCode = "200", description = "Lista de autores retornada com sucesso")
     @GetMapping
@@ -57,7 +66,7 @@ public class AutorController {
 
     @Operation(
             summary = "Buscar autor por ID",
-            description = "Retorna os dados de um autor específico, com base no ID informado."
+            description = "Retorna os dados detalhados de um autor específico, conforme o ID informado."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Autor encontrado com sucesso"),
@@ -72,7 +81,10 @@ public class AutorController {
 
     @Operation(
             summary = "Atualizar autor",
-            description = "Atualiza as informações de um autor existente. É necessário informar o ID e os novos dados."
+            description = """
+                    Atualiza as informações de um autor existente, incluindo biografia, nacionalidade 
+                    e data de nascimento.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Autor atualizado com sucesso"),
@@ -88,7 +100,10 @@ public class AutorController {
 
     @Operation(
             summary = "Excluir autor",
-            description = "Remove um autor do sistema pelo seu ID. Também remove todos os livros associados a ele."
+            description = """
+                    Remove um autor do sistema com base no ID informado.
+                    Todos os livros associados ao autor também serão excluídos.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Autor excluído com sucesso"),
@@ -104,7 +119,10 @@ public class AutorController {
 
     @Operation(
             summary = "Listar livros de um autor",
-            description = "Retorna todos os livros cadastrados que pertencem a um autor específico."
+            description = """
+                    Retorna todos os livros cadastrados pertencentes a um autor específico.
+                    É possível visualizar detalhes como título, gênero, preço e editora.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Livros do autor retornados com sucesso"),

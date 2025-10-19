@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/livros")
-@Tag(name = "Livros", description = "Gerenciamento de livros e seus autores")
+@Tag(name = "Livros", description = "Gerenciamento completo de livros e seus respectivos autores")
 public class LivroController {
 
     private final LivroService livroService;
@@ -27,10 +27,13 @@ public class LivroController {
     }
 
     @Operation(
-            summary = "Listar todos os livros",
-            description = "Retorna a lista completa de livros cadastrados no sistema."
+            summary = "Listar livros",
+            description = """
+                    Retorna uma lista com todos os livros cadastrados, incluindo título, gênero, 
+                    preço, editora e autor correspondente.
+                    """
     )
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+    @ApiResponse(responseCode = "200", description = "Lista de livros retornada com sucesso")
     @GetMapping
     public List<LivroDTO> listar() {
         return livroService.listar();
@@ -38,7 +41,7 @@ public class LivroController {
 
     @Operation(
             summary = "Buscar livro por ID",
-            description = "Retorna os dados de um livro específico com base no seu ID."
+            description = "Retorna os dados detalhados de um livro específico conforme o ID informado."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Livro encontrado com sucesso"),
@@ -52,15 +55,20 @@ public class LivroController {
     }
 
     @Operation(
-            summary = "Criar novo livro",
-            description = "Cadastra um novo livro vinculado a um autor existente."
+            summary = "Cadastrar novo livro",
+            description = """
+                    Cria um novo livro vinculado a um autor existente.
+                    É obrigatório informar título, ISBN, autorId e gênero.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Livro criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Erro de validação no corpo da requisição")
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados")
     })
     @PostMapping
-    public ResponseEntity<LivroDTO> criar(@RequestBody @Valid LivroDTO dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<LivroDTO> criar(
+            @RequestBody @Valid LivroDTO dto,
+            UriComponentsBuilder uriBuilder) {
         LivroDTO created = livroService.criar(dto);
         URI uri = uriBuilder.path("/livros/{id}").buildAndExpand(created.id()).toUri();
         return ResponseEntity.created(uri).body(created);
@@ -68,7 +76,10 @@ public class LivroController {
 
     @Operation(
             summary = "Atualizar livro",
-            description = "Atualiza as informações de um livro existente com base no ID informado."
+            description = """
+                    Atualiza as informações de um livro existente, incluindo gênero, preço, 
+                    descrição e dados editoriais.
+                    """
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Livro atualizado com sucesso"),
