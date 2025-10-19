@@ -55,9 +55,12 @@ mvn spring-boot:run
 
 ## 🧩 Credenciais H2 (padrão):
 
-JDBC URL: jdbc:h2:mem:bookstore-db
-Usuário: sa
-Senha: (em branco)
+* JDBC URL: 
+```
+jdbc:h2:mem:bookstore-db
+```
+* Usuário: sa
+* Senha: (em branco)
 
 ## 🏗️ Estrutura do Projeto
 
