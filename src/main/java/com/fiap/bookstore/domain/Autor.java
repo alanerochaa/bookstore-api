@@ -2,13 +2,15 @@ package com.fiap.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "livros")
@@ -28,20 +30,27 @@ public class Autor {
     @Column(nullable = false, unique = true)
     private String email;
 
+    // 🆕 Campos que faltavam
+    @Size(max = 1000)
+    @Column(length = 1000)
+    private String biografia;
+
+    @Past
+    private LocalDate dataNascimento;
+
+    @Size(max = 60)
+    @Column(length = 60)
+    private String nacionalidade;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Livro> livros = new ArrayList<>();
 
-    // Construtor prático para testes e instâncias manuais
-    public Autor(Long id, String nome, String email) {
-        this.id = id;
+    public Autor(String nome, String email, String biografia, LocalDate dataNascimento, String nacionalidade) {
         this.nome = nome;
         this.email = email;
-    }
-
-    // Construtor adicional para criação rápida
-    public Autor(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
+        this.biografia = biografia;
+        this.dataNascimento = dataNascimento;
+        this.nacionalidade = nacionalidade;
     }
 }

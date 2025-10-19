@@ -6,6 +6,7 @@ import com.fiap.bookstore.dto.AutorDTO;
 import com.fiap.bookstore.dto.LivroDTO;
 
 public interface BookstoreMapper {
+
     AutorDTO toAutorDTO(Autor entity);
     Autor toAutorEntity(AutorDTO dto);
 
