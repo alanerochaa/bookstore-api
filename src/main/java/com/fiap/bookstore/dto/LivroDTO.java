@@ -3,7 +3,9 @@ package com.fiap.bookstore.dto;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
+
 public record LivroDTO(
+
         Long id,
 
         @NotBlank(message = "O título é obrigatório")
@@ -17,7 +19,6 @@ public record LivroDTO(
         @NotNull(message = "O ID do autor é obrigatório")
         Long autorId,
 
-        @NotBlank(message = "O gênero é obrigatório")
         @Size(max = 50, message = "O gênero pode ter no máximo 50 caracteres")
         String genero,
 
@@ -25,11 +26,11 @@ public record LivroDTO(
         String editora,
 
         @Min(value = 1, message = "O número de páginas deve ser maior que zero")
-        int paginas,
+        Integer paginas,
 
         @Min(value = 1500, message = "O ano de publicação deve ser válido")
         @Max(value = 2025, message = "O ano de publicação não pode ser maior que o atual")
-        int anoPublicacao,
+        Integer anoPublicacao,
 
         @DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero")
         BigDecimal preco,

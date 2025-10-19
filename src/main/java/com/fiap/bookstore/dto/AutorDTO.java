@@ -4,10 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDate;
 
+
 public record AutorDTO(
+
         Long id,
 
         @NotBlank(message = "O nome do autor é obrigatório")
