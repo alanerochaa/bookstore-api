@@ -1,4 +1,4 @@
-package com.fiap.bookstore.service.impl;
+package com.fiap.bookstore.service;
 
 import com.fiap.bookstore.domain.Autor;
 import com.fiap.bookstore.dto.AutorDTO;
@@ -25,26 +25,43 @@ public class AutorServiceImpl implements AutorService {
 
     @Override
     public AutorDTO criar(AutorDTO dto) {
-        Autor saved = autorRepository.save(mapper.toAutorEntity(dto));
+        // Evita e-mail duplicado
+        if (autorRepository.existsByEmail(dto.email())) {
+            throw new IllegalArgumentException("Já existe um autor cadastrado com o e-mail informado: " + dto.email());
+        }
+
+        Autor entity = mapper.toAutorEntity(dto);
+        Autor saved = autorRepository.save(entity);
         return mapper.toAutorDTO(saved);
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
+    @Transactional(readOnly = true)
     public AutorDTO buscarPorId(Long id) {
         return mapper.toAutorDTO(buscarEntity(id));
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
+    @Transactional(readOnly = true)
     public List<AutorDTO> listar() {
-        return autorRepository.findAll().stream().map(mapper::toAutorDTO).toList();
+        return autorRepository.findAll()
+                .stream()
+                .map(mapper::toAutorDTO)
+                .toList();
     }
 
     @Override
     public AutorDTO atualizar(Long id, AutorDTO dto) {
         Autor autor = buscarEntity(id);
+
         autor.setNome(dto.nome());
         autor.setEmail(dto.email());
-        return mapper.toAutorDTO(autorRepository.save(autor));
+        autor.setBiografia(dto.biografia());
+        autor.setDataNascimento(dto.dataNascimento());
+        autor.setNacionalidade(dto.nacionalidade());
+
+        Autor atualizado = autorRepository.save(autor);
+        return mapper.toAutorDTO(atualizado);
     }
 
     @Override
@@ -55,6 +72,7 @@ public class AutorServiceImpl implements AutorService {
 
     private Autor buscarEntity(Long id) {
         return autorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Autor id %d não encontrado".formatted(id)));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Autor com ID " + id + " não encontrado."));
     }
 }

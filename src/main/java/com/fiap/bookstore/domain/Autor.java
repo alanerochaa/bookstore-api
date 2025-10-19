@@ -24,13 +24,12 @@ public class Autor {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 120)
     private String email;
 
-    // 🆕 Campos que faltavam
     @Size(max = 1000)
     @Column(length = 1000)
     private String biografia;

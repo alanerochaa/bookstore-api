@@ -21,10 +21,10 @@ public class Livro {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String titulo;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String isbn;
 
     @Column(nullable = false, length = 50)
@@ -33,13 +33,16 @@ public class Livro {
     @Column(length = 100)
     private String editora;
 
+    @Column(nullable = false)
     @Min(value = 1, message = "O número de páginas deve ser maior que zero")
     private int paginas;
 
+    @Column(nullable = false)
     @Min(value = 1500, message = "O ano de publicação deve ser válido")
     @Max(value = 2025, message = "O ano de publicação não pode ser maior que o atual")
     private int anoPublicacao;
 
+    @Column(nullable = false, precision = 10, scale = 2)
     @DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero")
     private BigDecimal preco;
 
